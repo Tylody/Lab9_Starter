@@ -87,6 +87,18 @@
     </section>
   </main>
 
+  
+
+  <script src="https://cdn.trackjs.com/agent/v3/latest/t.js"></script>
+  <script>
+    window.TrackJS && TrackJS.install({ 
+      token: "b2596c5b912e4150aef7bcb293cdf4ec"
+      // for more configuration options, see https://docs.trackjs.com
+    });
+  </script>
+
+
+
   <script>
     let form = document.querySelector('form');
     form.addEventListener('submit', e => {
@@ -100,6 +112,16 @@
 
     let errorBtns = Array.from(document.querySelectorAll('#error-btns > button'));
 
+
+    // Start your code here
+    // You may move this JS to another file if you wish
+    class CalculatorError extends Error {
+      constructor(message) {
+        super(message);
+        this.name = "CalcuatorError";
+      }
+    }
+    
     errorBtns[0].addEventListener('click', () => {
       console.log("I logged data!");
     });
@@ -133,11 +155,49 @@
       console.dirxml(grandparent);
     });
     errorBtns[8].addEventListener('click', () => {
-      
+      console.group();
+    });
+    errorBtns[9].addEventListener('click', () => {
+      console.groupEnd();
+    });
+    errorBtns[10].addEventListener('click', () => {
+      console.table(["apples", "oranges", "bananas"]);
     })
+    errorBtns[11].addEventListener('click', () => {
+      console.time();
+    });
+    errorBtns[12].addEventListener('click', () => {
+      console.timeEnd();
+    });
+    errorBtns[13].addEventListener('click', () => {
+      console.trace();
+    });
+    errorBtns[14].addEventListener('click', () => {
+      throw new Error("Global error button!");
+    });
 
-    // Start your code here
-    // You may move this JS to another file if you wish
+    let firstNum = document.querySelector("#first-num").value;
+    let secondNum = document.querySelector("#second-num").value;
+    let operator = document.querySelector("#operator").value;
+    let output = document.querySelector("output");
+
+    try {
+      if (firstNum == "" || secondNum == "") {
+        throw new CalculatorError("Missing fields in calculator input!");
+      }
+    } catch(error) {
+      console.error(error);
+    } finally {
+      console.log("Lets try this again");
+    }
+
+    try {
+      let noElement = document.querySelector('#invalid-selector').innerHTML;
+    } catch(e) {
+      console.warn("Selector not found!");
+    }
+
+    
   </script>
 </body>
 
